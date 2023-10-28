@@ -1,3 +1,4 @@
-flask
 litellm==0.12.7.dev1
-waitress
+fastapi
+uvicorn
+python-dotenv

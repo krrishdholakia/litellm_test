@@ -1,11 +1,9 @@
-from flask import Flask, request
+from fastapi import FastAPI
 import os
 import litellm, dotenv
 import random
-
-
 dotenv.load_dotenv()
-app = Flask(__name__)
+app = FastAPI()
 
 default_messages = [
     """I can't believe how hot it is outside today.""",
@@ -24,8 +22,8 @@ default_messages = [
     """I recently had the opportunity to travel to a remote village in a developing country for a volunteer project. It was eye-opening to witness the challenges and resilience of the local community. Despite facing adversity, they were filled with warmth, kindness, and an unwavering spirit. Interacting with the villagers and collaborating on sustainable development initiatives was a truly humbling experience. It reminded me of the importance of empathy and giving back to those in need. I hope to continue supporting similar causes and making a positive impact in the lives of others."""
 ]
 
-@app.route("/chat/completions")
-def chat_completions(): 
+@app.get("/chat/completions")
+def chat_completions():
     global default_messages
     print("request received")
     message = random.choice(default_messages)
@@ -36,11 +34,6 @@ def chat_completions():
                                   {"model": "azure/chatgpt-functioncalling", "api_key": os.getenv("AZURE_US_EAST_API_KEY"), "api_base": os.getenv("AZURE_US_EAST_API_BASE")}])
     return response 
 
-@app.route('/')
+@app.get("/")
 def hello():
-    return "Hello, World!"
-
-if __name__ == '__main__':
-    # You can specify the number of threads using the threads parameter
-    from waitress import serve
-    serve(app, host='0.0.0.0', port=8000, threads=500)
+    return {"message": "Hello, World!"}
