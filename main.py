@@ -29,9 +29,9 @@ def chat_completions():
     message = random.choice(default_messages)
     messages = [{"role": "user", "content": message}]
     response = litellm.completion(model="gpt-3.5-turbo", messages=messages, 
-                       fallbacks=[{"model": "azure/gpt-turbo", "api_key": "6a5ae4c5b2bd4e8088248067799c6899", "api_base": "https://openai-france-1234.openai.azure.com/"}, 
-                                  {"model": "azure/chatgpt-v-2", "api_key": "6314c6dc63f448c9873844297f408c74", "api_base": "https://openai-gpt-4-test-v-1.openai.azure.com/"},
-                                  {"model": "azure/chatgpt-functioncalling", "api_key": "6314c6dc63f448c9873844297f408c74", "api_base": "https://openai-gpt-4-test-v-1.openai.azure.com/"}])
+                       fallbacks=[{"model": "azure/gpt-turbo", "api_key": os.getenv("AZURE_FRANCE_API_KEY"), "api_base": os.getenv("AZURE_FRANCE_API_BASE")}, 
+                                  {"model": "azure/chatgpt-v-2", "api_key": os.getenv("AZURE_US_EAST_API_KEY"), "api_base": os.getenv("AZURE_US_EAST_API_BASE")},
+                                  {"model": "azure/chatgpt-functioncalling", "api_key": os.getenv("AZURE_US_EAST_API_KEY"), "api_base": os.getenv("AZURE_US_EAST_API_BASE")}])
     return response 
 
 @app.route('/')
